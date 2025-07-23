@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('equipment', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade'); // Relación con clients
+            $table->string('brand'); // Marca
+            $table->string('model'); // Modelo
+            $table->string('inventory_number')->unique(); // Nº. Inventario
+            $table->string('location')->nullable(); // Ubicación
+            $table->text('accessories')->nullable(); // Accesorios
             $table->timestamps();
         });
     }
