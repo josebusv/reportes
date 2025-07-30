@@ -21,7 +21,7 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
+        //'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
 });
@@ -30,14 +30,28 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Rutas para los reportes
+    // Solo 'ingenieros' y 'admins' pueden crear/almacenar reportes
+    Route::middleware(['role:admin,ingeniero'])->group(function () {
+        Route::get('/reports/create', [ReportController::class, 'create'])->name('reports.create');
+        Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
+    });
 
-    // Rutas para los reportes
-    Route::get('/reports/create', [ReportController::class, 'create'])->name('reports.create');
-    Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
+    // Ejemplo: Rutas para que los 'medicos' puedan ver sus equipos
+    Route::middleware(['role:admin,medico'])->group(function () {
+        Route::get('/my-equipment', [ReportController::class, 'myEquipment'])->name('my-equipment'); // Necesitarás crear este método
+    });
+
+    // Ejemplo: Rutas para que los 'medicos' puedan solicitar mantenimiento
+    Route::middleware(['role:admin,medico'])->group(function () {
+        Route::get('/maintenance-requests/create', [ReportController::class, 'createMaintenanceRequest'])->name('maintenance-requests.create');
+        Route::post('/maintenance-requests', [ReportController::class, 'storeMaintenanceRequest'])->name('maintenance-requests.store');
+    });
+
+    // Ejemplo: Rutas para que los 'ingenieros' y 'admins' puedan ver solicitudes de mantenimiento
+    Route::middleware(['role:admin,ingeniero'])->group(function () {
+        Route::get('/maintenance-requests', [ReportController::class, 'indexMaintenanceRequests'])->name('maintenance-requests.index');
+    });
 });
 
 require __DIR__.'/auth.php';

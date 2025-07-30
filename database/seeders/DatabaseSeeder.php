@@ -14,11 +14,7 @@
         public function run(): void
         {
             // Crea un usuario de ejemplo (puedes eliminarlo o modificarlo)
-            User::factory()->create([
-                'name' => 'Test User',
-                'email' => 'test@example.com',
-                'password' => Hash::make('password'), // Contraseña por defecto
-            ]);
+            User::factory()->count(100)->create();
 
             $this->call([
                 ChecklistItemsSeeder::class,
