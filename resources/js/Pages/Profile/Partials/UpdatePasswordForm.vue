@@ -36,10 +36,10 @@ const updatePassword = () => {
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900">Update Password</h2>
+            <h2 class="text-lg font-medium text-gray-900">Actualizar contraseña</h2>
 
-            <p class="mt-1 text-sm text-gray-600">
-                Ensure your account is using a long, random password to stay secure.
+            <p class="mt-1 text-sm text-gray-900">
+                Asegúrate de que tu cuenta utiliza una contraseña larga y aleatoria para mantenerla segura.
             </p>
         </header>
 

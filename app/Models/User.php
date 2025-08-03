@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // Asegúrate de que 'role' esté en fillable
+        'client_id', // Asegúrate de que 'client_id' esté en fillable
     ];
 
     /**
@@ -48,5 +50,13 @@ class User extends Authenticatable
     public function reports()
     {
         return $this->hasMany(Report::class, 'engineer_id');
+    }
+
+    /**
+     * Un usuario (médico) puede pertenecer a un cliente.
+     */
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
     }
 }

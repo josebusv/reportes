@@ -30,6 +30,8 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->middleware(['auth', 'verified'])->name('profile.edit');
+
 // Rutas para los reportes
     // Solo 'ingenieros' y 'admins' pueden crear/almacenar reportes
     Route::middleware(['role:admin,ingeniero'])->group(function () {
@@ -52,6 +54,6 @@ Route::get('/dashboard', function () {
     Route::middleware(['role:admin,ingeniero'])->group(function () {
         Route::get('/maintenance-requests', [ReportController::class, 'indexMaintenanceRequests'])->name('maintenance-requests.index');
     });
-});
+
 
 require __DIR__.'/auth.php';

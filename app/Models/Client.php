@@ -9,7 +9,6 @@ class Client extends Model
 {
     use HasFactory;
 
-    // Define los campos que pueden ser asignados masivamente
     protected $fillable = [
         'name',
         'contact_person_name',
@@ -25,5 +24,13 @@ class Client extends Model
     public function equipment()
     {
         return $this->hasMany(Equipment::class);
+    }
+
+    /**
+     * Un cliente puede tener muchos usuarios (médicos).
+     */
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 }

@@ -176,14 +176,13 @@ const getRoutineItemName = (itemId) => {
                             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Información del Reporte</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <InputLabel for="report_number" value="Número de Reporte" />
+                                    <InputLabel for="report_number" value="Número de Reporte (Automático)" />
                                     <TextInput
                                         id="report_number"
                                         type="text"
                                         class="mt-1 block w-full"
                                         v-model="form.report_number"
-                                        required
-                                        autofocus
+                                        :disabled="true" 
                                     />
                                     <InputError class="mt-2" :message="form.errors.report_number" />
                                 </div>

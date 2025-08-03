@@ -195,4 +195,31 @@ class ReportController extends Controller
             return redirect()->back()->with('error', 'Hubo un error al crear el reporte: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Muestra los equipos asociados al cliente del médico logueado.
+     */
+    public function myEquipment()
+    {
+        $user = Auth::user();
+
+        // Si el usuario es 'admin' o 'ingeniero', puede ver todos los equipos
+        if ($user->role === 'admin' || $user->role === 'ingeniero') {
+            $equipment = Equipment::with('client')->get();
+        }
+        // Si el usuario es 'medico' y tiene un client_id asignado
+        else if ($user->role === 'medico' && $user->client_id) {
+            $equipment = Equipment::where('client_id', $user->client_id)
+                                ->with('client')
+                                ->get();
+        }
+        // Para otros roles o médicos sin client_id, no se muestran equipos
+        else {
+            $equipment = collect(); // Colección vacía
+        }
+
+        return Inertia::render('MyEquipment/Index', [
+            'equipment' => $equipment,
+        ]);
+    }
 }

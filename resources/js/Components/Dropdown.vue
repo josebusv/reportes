@@ -3,15 +3,20 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
 
 const props = defineProps({
     align: {
+        type: String,
         default: 'right',
     },
     width: {
+        type: String,
         default: '48',
     },
     contentClasses: {
-        default: () => ['py-1', 'bg-white'],
+        type: String,
+        default: 'py-1 bg-white dark:bg-gray-700',
     },
 });
+
+const open = ref(false);
 
 const closeOnEscape = (e) => {
     if (open.value && e.key === 'Escape') {
@@ -24,7 +29,7 @@ onUnmounted(() => document.removeEventListener('keydown', closeOnEscape));
 
 const widthClass = computed(() => {
     return {
-        48: 'w-48',
+        '48': 'w-48',
     }[props.width.toString()];
 });
 
@@ -37,8 +42,6 @@ const alignmentClasses = computed(() => {
         return 'origin-top';
     }
 });
-
-const open = ref(false);
 </script>
 
 <template>
@@ -50,7 +53,7 @@ const open = ref(false);
         <!-- Full Screen Dropdown Overlay -->
         <div v-show="open" class="fixed inset-0 z-40" @click="open = false"></div>
 
-        <transition
+        <Transition
             enter-active-class="transition ease-out duration-200"
             enter-from-class="transform opacity-0 scale-95"
             enter-to-class="transform opacity-100 scale-100"
@@ -69,6 +72,6 @@ const open = ref(false);
                     <slot name="content" />
                 </div>
             </div>
-        </transition>
+        </Transition>
     </div>
 </template>

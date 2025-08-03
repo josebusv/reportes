@@ -1,5 +1,3 @@
-<!-- resources/js/Components/ResponsiveNavLink.vue -->
-
 <script setup>
 import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
